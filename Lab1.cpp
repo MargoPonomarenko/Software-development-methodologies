@@ -8,14 +8,18 @@
 
 using namespace std;
 
+void equationCalculator(double a, double b, double c);
 void interactiveMode();
+void noninteractiveMode(char *argv);
+
 vector<double> validChecker();
 
 int main(int argc, char *argv[])
 {
     if (argc > 1)
     {
-        // implement non-interactive mode
+        char *filename = argv[1];
+        noninteractiveMode(filename);
     }
     else
     {
@@ -24,14 +28,9 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void interactiveMode()
+void equationCalculator(double a, double b, double c)
 {
-    double a, b, c, discriminant, x1, x2;
-    cin.exceptions(ifstream::failbit);
-    vector<double> variables = validChecker();
-    a = variables[0];
-    b = variables[1];
-    c = variables[2];
+    double discriminant, x1, x2;
     stringstream outputEquation;
     outputEquation << fixed << setprecision(1) << "Equation is: (" << a << ") x^2 + (" << b << ") x + (" << c << ") = 0\n";
     cout << outputEquation.str();
@@ -54,6 +53,17 @@ void interactiveMode()
     {
         cout << "There are 0 roots\n";
     }
+}
+
+void interactiveMode()
+{
+    double a, b, c, discriminant, x1, x2;
+    cin.exceptions(ifstream::failbit);
+    vector<double> variables = validChecker();
+    a = variables[0];
+    b = variables[1];
+    c = variables[2];
+    equationCalculator(a, b, c);
 }
 
 vector<double> validChecker()
@@ -79,7 +89,7 @@ vector<double> validChecker()
             cin.clear();
             string errorText;
             cin >> errorText;
-            cout << "Error. Expected a valid real number, got " << errorText << " instead" << std::endl;
+            cout << "Error. Expected a valid real number, got " << errorText << " instead" << endl;
         }
     } while (!validInput);
     variables.push_back(a);
@@ -87,3 +97,28 @@ vector<double> validChecker()
     variables.push_back(c);
     return variables;
 };
+
+void noninteractiveMode(char *argv)
+{
+    fstream newfile;
+    newfile.open(argv, ios::in);
+    string readData;
+    if (newfile.is_open())
+    {
+        getline(newfile, readData);
+        newfile.close();
+        cout << readData << endl;
+        istringstream iss(readData);
+        double a, b, c;
+        iss >> a >> b >> c;
+        if (!iss.fail())
+        {
+            equationCalculator(a, b, c);
+        }
+        cout << "invalid file format" << endl;
+    }
+    else
+    {
+        cout << "file does not exist" << endl;
+    }
+}

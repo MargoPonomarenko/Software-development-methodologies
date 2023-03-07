@@ -1,12 +1,29 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <sstream>
 #include <cmath>
 #include <iomanip>
+#include <fstream>
 
 using namespace std;
 
-int main()
+void interactiveMode();
+
+int main(int argc, char *argv[])
+{
+    if (argc > 1)
+    {
+        // implement non-interactive mode
+    }
+    else
+    {
+        interactiveMode();
+    }
+    return 0;
+}
+
+void interactiveMode()
 {
     double a, b, c, discriminant, x1, x2;
     cout << "a = ";
@@ -37,5 +54,4 @@ int main()
     {
         cout << "There are 0 roots\n";
     }
-    return 0;
 }

@@ -15,6 +15,13 @@ To run the hello.exe program, at the command prompt, enter:
 ```bash
 <file-name>
 ```
+
+## Instructions to run in Visual Studio
+
+1. Clone repository;
+2. Do Terminal > Run Build Task > C/C++: g++.exe build active file
+3. Write in terminal ".\<file-name>"
+
 ## File format description
 
 File example:

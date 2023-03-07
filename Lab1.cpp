@@ -9,6 +9,7 @@
 using namespace std;
 
 void interactiveMode();
+vector<double> validChecker();
 
 int main(int argc, char *argv[])
 {
@@ -26,12 +27,11 @@ int main(int argc, char *argv[])
 void interactiveMode()
 {
     double a, b, c, discriminant, x1, x2;
-    cout << "a = ";
-    cin >> a;
-    cout << "b = ";
-    cin >> b;
-    cout << "c = ";
-    cin >> c;
+    cin.exceptions(ifstream::failbit);
+    vector<double> variables = validChecker();
+    a = variables[0];
+    b = variables[1];
+    c = variables[2];
     stringstream outputEquation;
     outputEquation << fixed << setprecision(1) << "Equation is: (" << a << ") x^2 + (" << b << ") x + (" << c << ") = 0\n";
     cout << outputEquation.str();
@@ -55,3 +55,35 @@ void interactiveMode()
         cout << "There are 0 roots\n";
     }
 }
+
+vector<double> validChecker()
+{
+    double a, b, c;
+    bool validInput;
+    vector<double> variables;
+    do
+    {
+        try
+        {
+            validInput = true;
+            cout << "a = ";
+            cin >> a;
+            cout << "b = ";
+            cin >> b;
+            cout << "c = ";
+            cin >> c;
+        }
+        catch (ios_base::failure &fail)
+        {
+            validInput = false;
+            cin.clear();
+            string errorText;
+            cin >> errorText;
+            cout << "Error. Expected a valid real number, got " << errorText << " instead" << std::endl;
+        }
+    } while (!validInput);
+    variables.push_back(a);
+    variables.push_back(b);
+    variables.push_back(c);
+    return variables;
+};
